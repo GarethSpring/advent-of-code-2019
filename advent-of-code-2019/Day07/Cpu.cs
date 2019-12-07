@@ -36,101 +36,67 @@ namespace advent_of_code_2019.Day07
         public int Run()
         {
             IsHalted = false;
-
             Outputs = new Stack<int>();
 
             int output = 0;
 
             while (opCode != 99 && !IsHalted)
             {
+                int mode1 = 0;
+                int mode2 = 0;
+                int mode3 = 0;
+
                 if (intCode[opPointer] > 99)
                 {
                     // Parameter Modes
-
                     string stringCode = Convert.ToString(intCode[opPointer]).PadLeft(5, '0');
 
                     opCode = Convert.ToInt32(stringCode.Substring(3, 2));
 
-                    var mode1 = Convert.ToInt32(stringCode.Substring(2, 1));
-                    var mode2 = Convert.ToInt32(stringCode.Substring(1, 1));
-                    var mode3 = Convert.ToInt32(stringCode.Substring(0, 1));
 
-                    switch (opCode)
-                    {
-                        case 1:
-                            OpCode1(opPointer + 1, opPointer + 2, opPointer + 3, mode1, mode2, mode3);
-                            opPointer += 4;
-                            break;
-                        case 2:
-                            OpCode2(opPointer + 1, opPointer + 2, opPointer + 3, mode1, mode2, mode3);
-                            opPointer += 4;
-                            break;
-                        case 3:
-                            OpCode3(opPointer + 1, Inputs[inputPointer >= Inputs.Count ? Inputs.Count - 1 : inputPointer]);
-                            inputPointer++;
-                            opPointer += 2;
-                            break;
-                        case 4:
-                            output = OpCode4(opPointer + 1, mode1);
-                            opPointer += 2;
-                            break;
-                        case 5:
-                            OpCode5(++opPointer, ++opPointer, mode1, mode2, ref opPointer);
-                            break;
-                        case 6:
-                            OpCode6(++opPointer, ++opPointer, mode1, mode2, ref opPointer);
-                            break;
-                        case 7:
-                            OpCode7(++opPointer, ++opPointer, ++opPointer, mode1, mode2);
-                            opPointer += 1;
-                            break;
-                        case 8:
-                            OpCode8(++opPointer, ++opPointer, ++opPointer, mode1, mode2);
-                            opPointer += 1;
-                            break;
-                    }
+                    mode1 = Convert.ToInt32(stringCode.Substring(2, 1));
+                    mode2 = Convert.ToInt32(stringCode.Substring(1, 1));
+                    mode3 = Convert.ToInt32(stringCode.Substring(0, 1));
                 }
                 else
                 {
-                    // Position Mode only
+                    // Position Mode
                     opCode = intCode[opPointer];
+                }
 
-                    //Debug.WriteLine($"{opPointer} OPI {opCode}");
-
-                    switch (opCode)
-                    {
-                        case 1:
-                            OpCode1(opPointer + 1, opPointer + 2, opPointer + 3, 0, 0, 0);
-                            opPointer += 4;
-                            break;
-                        case 2:
-                            OpCode2(opPointer + 1, opPointer + 2, opPointer + 3, 0, 0, 0);
-                            opPointer += 4;
-                            break;
-                        case 3:
-                            OpCode3(opPointer + 1, Inputs[inputPointer >= Inputs.Count? Inputs.Count - 1 : inputPointer]);
-                            inputPointer++;
-                            opPointer += 2;
-                            break;
-                        case 4:
-                            output = OpCode4(opPointer + 1, 0);
-                            opPointer += 2;
-                            break;
-                        case 5:
-                            OpCode5(++opPointer, ++opPointer, 0, 0, ref opPointer);
-                            break;
-                        case 6:
-                            OpCode6(++opPointer, ++opPointer, 0, 0, ref opPointer);
-                            break;
-                        case 7:
-                            OpCode7(++opPointer, ++opPointer, ++opPointer, 0, 0);
-                            opPointer += 1;
-                            break;
-                        case 8:
-                            OpCode8(++opPointer, ++opPointer, ++opPointer, 0, 0);
-                            opPointer += 1;
-                            break;
-                    }
+                switch (opCode)
+                {
+                    case 1:
+                        OpCode1(opPointer + 1, opPointer + 2, opPointer + 3, mode1, mode2, mode3);
+                        opPointer += 4;
+                        break;
+                    case 2:
+                        OpCode2(opPointer + 1, opPointer + 2, opPointer + 3, mode1, mode2, mode3);
+                        opPointer += 4;
+                        break;
+                    case 3:
+                        OpCode3(opPointer + 1, Inputs[inputPointer >= Inputs.Count ? Inputs.Count - 1 : inputPointer]);
+                        inputPointer++;
+                        opPointer += 2;
+                        break;
+                    case 4:
+                        output = OpCode4(opPointer + 1, mode1);
+                        opPointer += 2;
+                        break;
+                    case 5:
+                        OpCode5(++opPointer, ++opPointer, mode1, mode2, ref opPointer);
+                        break;
+                    case 6:
+                        OpCode6(++opPointer, ++opPointer, mode1, mode2, ref opPointer);
+                        break;
+                    case 7:
+                        OpCode7(++opPointer, ++opPointer, ++opPointer, mode1, mode2);
+                        opPointer += 1;
+                        break;
+                    case 8:
+                        OpCode8(++opPointer, ++opPointer, ++opPointer, mode1, mode2);
+                        opPointer += 1;
+                        break;
                 }
             }
 

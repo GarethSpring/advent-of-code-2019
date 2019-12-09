@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using advent_of_code_2019.Common;
 
 namespace advent_of_code_2019.Day07
 {
     public class Day07
     {
-        public int GetHighestSignal(string program)
+        public long GetHighestSignal(string program)
         {
-            int output = 0;
+            long output = 0;
             string ps = string.Empty;
 
             var combinations = GetPermutations(new List<int> { 0, 1, 2, 3, 4 });
@@ -29,11 +30,11 @@ namespace advent_of_code_2019.Day07
         }
 
 
-        public int GetHighestSignal2(string program)
+        public long GetHighestSignal2(string program)
         {
-            int output = 0;
+            long output = 0;
             string ps = string.Empty;
-            int result = 0;
+            long result = 0;
 
             var combinations = GetPermutations(new List<int> { 5, 6, 7, 8, 9 });
 
@@ -57,41 +58,41 @@ namespace advent_of_code_2019.Day07
             return output;
         }
 
-        public int Amplify(string program, int p1, int p2, int p3, int p4, int p5, int initialInput)
+        public long Amplify(string program, long p1, long p2, long p3, long p4, long p5, long initialInput)
         {
-            var CPU = new Cpu(program, new List<int> { p1, initialInput });
+            var CPU = new Cpu(program, new List<long> { p1, initialInput });
             var output = CPU.Run();
 
-            CPU = new Cpu(program, new List<int> { p2, output });
+            CPU = new Cpu(program, new List<long> { p2, output });
             output = CPU.Run();
 
-            CPU = new Cpu(program, new List<int> { p3, output });
+            CPU = new Cpu(program, new List<long> { p3, output });
             output = CPU.Run();
 
-            CPU = new Cpu(program, new List<int> { p4, output });
+            CPU = new Cpu(program, new List<long> { p4, output });
             output = CPU.Run();
 
-            CPU = new Cpu(program, new List<int> { p5, output });
+            CPU = new Cpu(program, new List<long> { p5, output });
             output = CPU.Run();
 
             return output;
         }
 
-        public int Amplify2(string program, int p1, int p2, int p3, int p4, int p5, int initialInput)
+        public long Amplify2(string program, int p1, int p2, int p3, int p4, int p5, int initialInput)
         {
             var CPUs = new List<Cpu>();
-            var CPU1 = new Cpu(program, new List<int>() { p1 });
-            var CPU2 = new Cpu(program, new List<int>() { p2 });
-            var CPU3 = new Cpu(program, new List<int>() { p3 });
-            var CPU4 = new Cpu(program, new List<int>() { p4 });
-            var CPU5 = new Cpu(program, new List<int>() { p5 });
+            var CPU1 = new Cpu(program, new List<long>() { p1 });
+            var CPU2 = new Cpu(program, new List<long>() { p2 });
+            var CPU3 = new Cpu(program, new List<long>() { p3 });
+            var CPU4 = new Cpu(program, new List<long>() { p4 });
+            var CPU5 = new Cpu(program, new List<long>() { p5 });
             CPUs.Add(CPU1);
             CPUs.Add(CPU2);
             CPUs.Add(CPU3);
             CPUs.Add(CPU4);
             CPUs.Add(CPU5);
 
-            int output = initialInput;
+            long output = initialInput;
 
             while (CPUs.Any(c => !c.IsFinished))
             {

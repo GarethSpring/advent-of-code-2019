@@ -11,7 +11,7 @@ namespace advent_of_code_2019_tests.Day07
         {
             var day = new advent_of_code_2019.Day07.Day07();
 
-            int actual = day.GetHighestSignal(actualInput);
+            var actual = day.GetHighestSignal(actualInput);
 
             Assert.True(actual.Equals(24405));
         }
@@ -21,7 +21,7 @@ namespace advent_of_code_2019_tests.Day07
         {
             var day = new advent_of_code_2019.Day07.Day07();
 
-            int actual = day.GetHighestSignal2(actualInput);
+            var actual = day.GetHighestSignal2(actualInput);
 
             Assert.True(actual.Equals(8271623));
         }

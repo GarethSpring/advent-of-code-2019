@@ -174,7 +174,7 @@ namespace advent_of_code_2019.Common
         {
             var v1 = i1 == 0 ? ReadMemory(intCode[p1]) : i1 == 1 ? ReadMemory(p1) : ReadMemory(intCode[p1] + relativeBase);
             Outputs.Push(v1);
-            Debug.WriteLine($"OUTPUT {v1}");
+            //Debug.WriteLine($"OUTPUT {v1}");
             IsHalted = true;
 
             opPointer += 2;

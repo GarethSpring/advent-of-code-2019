@@ -35,6 +35,11 @@ namespace advent_of_code_2019.Common
             IsFinished = false;
         }
 
+        public void Poke(long value, long address)
+        {
+            intCode[address] = value;
+        }
+
         public long Run()
         {
             IsHalted = false;

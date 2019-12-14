@@ -19,5 +19,14 @@ namespace advent_of_code_2019_tests.Day13
             Assert.True(actual.Equals(277));
         }
 
+        [Fact]
+        public void Day13Part2()
+        {
+            var day = new advent_of_code_2019.Day13.Day13();
+
+            day.Part2(actualInput);
+
+        }
+
     }
 }

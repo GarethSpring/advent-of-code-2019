@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
+using System.Text;
 
 namespace advent_of_code_2019.Day16
 {
@@ -34,9 +35,68 @@ namespace advent_of_code_2019.Day16
             return Convert.ToInt64(resultString);
         }
 
+        public long Part2(string input, int phases)
+        {
+            int offset = Convert.ToInt32(input.Substring(0, 7));
+            input = Duplicate(input, 10000);
+            ParseInput(input);
+            string resultString = string.Empty;
+
+            for (int x = 1; x <= phases; x++)
+            {
+                resultString = string.Empty;
+                intList = DoPhase2Voodoo(intList);
+
+                Debug.WriteLine($"Phase {x}");
+            }
+
+            var result = intList.Skip(offset).Take(8);
+
+            foreach (var x in result)
+            {
+                resultString += x;
+            }
+
+            Debug.WriteLine(resultString);
+
+            return Convert.ToInt32(resultString);
+        }
+
+        public string Duplicate(string input, int times)
+        {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < times; i++)
+            {
+                sb.Append(input);
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+         /// Uses pattern x = element[x] = element[x] + [element[x + 1] to solve
+        /// </summary>
+        /// <param name="input">Input</param>
+        /// <returns>Output</returns>
+        private List<long> DoPhase2Voodoo(List<long> input)
+        {
+            var phaseResult = input;
+            var temp = new List<long>();
+
+            phaseResult[input.Count - 1] = input[input.Count - 1];
+
+            for (int i = input.Count - 2; i >= 0; i--)
+            {
+                phaseResult[i] = GetSingleDigitResult(phaseResult[i + 1] + phaseResult[i]);
+            }
+
+            return phaseResult;
+        }
+
         private List<long> DoPhase(List<long> input)
         {
             var phaseResult = new List<long>();
+
 
             long digit;
 
@@ -62,13 +122,11 @@ namespace advent_of_code_2019.Day16
 
                     digit = input[j] * pat;
                     result += digit;
-
-                    //Debug.WriteLine($"{intList[j]}*{pat} = {digit}");
                 }
 
                 result = GetSingleDigitResult(result);
 
-                //Debug.WriteLine($"Result = {result}");
+                Debug.WriteLine($"Result = {result}");
 
                 phaseResult.Add(result);
 

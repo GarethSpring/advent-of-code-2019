@@ -31,8 +31,11 @@ namespace advent_of_code_2019.Day11
         {
             Ed209 = new Robot()
             {
-                Brain = new Cpu(program, new List<long>() { startColour })
+
+                Brain = new Cpu(program, new Queue<long>())
             };
+
+            Ed209.Brain.Inputs.Enqueue(startColour);
 
             surface = new Dictionary<(int, int), Panel>();
 
@@ -80,11 +83,11 @@ namespace advent_of_code_2019.Day11
                 // Add Input
                 if (surface.ContainsKey((Ed209.XPos, Ed209.Ypos)))
                 {
-                    Ed209.Brain.Inputs.Add(surface[(Ed209.XPos, Ed209.Ypos)].Colour);
+                    Ed209.Brain.Inputs.Enqueue(surface[(Ed209.XPos, Ed209.Ypos)].Colour);
                 }
                 else
                 {
-                    Ed209.Brain.Inputs.Add(0);
+                    Ed209.Brain.Inputs.Enqueue(0);
                 }
             }
 

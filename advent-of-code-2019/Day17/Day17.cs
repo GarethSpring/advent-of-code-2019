@@ -14,7 +14,8 @@ namespace advent_of_code_2019.Day17
 
         public long Part1(string program, long initialInput)
         {
-            var CPU = new Cpu(program, new List<long>() { initialInput });
+            var CPU = new Cpu(program, new Queue<long>());
+            CPU.Inputs.Enqueue(initialInput);
 
             int x = 0;
             int y = 1;

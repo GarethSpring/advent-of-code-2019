@@ -17,7 +17,7 @@ namespace advent_of_code_2019.Day13
 
         public long Part1(string program)
         {
-            var CPU = new Cpu(program, new List<long>());
+            var CPU = new Cpu(program, new Queue<long>());
 
             while (!CPU.IsFinished)
             {
@@ -33,7 +33,7 @@ namespace advent_of_code_2019.Day13
 
         public long Initialise(string program)
         {
-            var CPU = new Cpu(program, new List<long>());
+            var CPU = new Cpu(program, new Queue<long>());
 
             while (!CPU.IsFinished)
             {
@@ -64,7 +64,7 @@ namespace advent_of_code_2019.Day13
 
             Initialise(program);
 
-            var CPU = new Cpu(program, new List<long>());
+            var CPU = new Cpu(program, new Queue<long>());
 
             // Play for Free!
             CPU.Poke(2, 0);
@@ -95,16 +95,16 @@ namespace advent_of_code_2019.Day13
                             if (paddle.X > tile.X)
                             {
                                 // Move Left
-                                CPU.Inputs.Add(-1);
+                                CPU.Inputs.Enqueue(-1);
                             }
                             else if (paddle.X < tile.X)
                             {
                                 // Move right
-                                CPU.Inputs.Add(1);
+                                CPU.Inputs.Enqueue(1);
                             }
                             else
                             {
-                                CPU.Inputs.Add(0);
+                                CPU.Inputs.Enqueue(0);
                             }
                         }
 

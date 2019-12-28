@@ -60,32 +60,47 @@ namespace advent_of_code_2019.Day07
 
         public long Amplify(string program, long p1, long p2, long p3, long p4, long p5, long initialInput)
         {
-            var CPU = new Cpu(program, new List<long> { p1, initialInput });
+            var CPU = new Cpu(program, GetQueue(p1, initialInput));
             var output = CPU.Run();
 
-            CPU = new Cpu(program, new List<long> { p2, output });
+            CPU = new Cpu(program, GetQueue(p2, output));
             output = CPU.Run();
 
-            CPU = new Cpu(program, new List<long> { p3, output });
+            CPU = new Cpu(program, GetQueue(p3, output));
             output = CPU.Run();
 
-            CPU = new Cpu(program, new List<long> { p4, output });
+            CPU = new Cpu(program, GetQueue(p4, output));
             output = CPU.Run();
 
-            CPU = new Cpu(program, new List<long> { p5, output });
+            CPU = new Cpu(program, GetQueue(p5, output));
             output = CPU.Run();
 
             return output;
         }
 
+        private Queue<long> GetQueue(int input1)
+        {
+            var q = new Queue<long>();
+            q.Enqueue(input1);
+            return q;
+        }
+
+        private Queue<long> GetQueue(long input1, long input2)
+        {
+            var q = new Queue<long>();
+            q.Enqueue(input1);
+            q.Enqueue(input2);
+            return q;
+        }
+
         public long Amplify2(string program, int p1, int p2, int p3, int p4, int p5, int initialInput)
         {
             var CPUs = new List<Cpu>();
-            var CPU1 = new Cpu(program, new List<long>() { p1 });
-            var CPU2 = new Cpu(program, new List<long>() { p2 });
-            var CPU3 = new Cpu(program, new List<long>() { p3 });
-            var CPU4 = new Cpu(program, new List<long>() { p4 });
-            var CPU5 = new Cpu(program, new List<long>() { p5 });
+            var CPU1 = new Cpu(program, GetQueue(p1));
+            var CPU2 = new Cpu(program, GetQueue(p2));
+            var CPU3 = new Cpu(program, GetQueue(p3));
+            var CPU4 = new Cpu(program, GetQueue(p4));
+            var CPU5 = new Cpu(program, GetQueue(p5));
             CPUs.Add(CPU1);
             CPUs.Add(CPU2);
             CPUs.Add(CPU3);
@@ -96,35 +111,35 @@ namespace advent_of_code_2019.Day07
 
             while (CPUs.Any(c => !c.IsFinished))
             {
-                CPU1.Inputs.Add(output);
+                CPU1.Inputs.Enqueue(output);
                 CPU1.Run();
                 if (!CPU1.IsFinished)
                 {
                     output = CPU1.Outputs.Pop();
                 }
 
-                CPU2.Inputs.Add(output);
+                CPU2.Inputs.Enqueue(output);
                 CPU2.Run();
                 if (!CPU2.IsFinished)
                 {
                     output = CPU2.Outputs.Pop();
                 }
 
-                CPU3.Inputs.Add(output);
+                CPU3.Inputs.Enqueue(output);
                 CPU3.Run();
                 if (!CPU3.IsFinished)
                 {
                     output = CPU3.Outputs.Pop();
                 }
 
-                CPU4.Inputs.Add(output);
+                CPU4.Inputs.Enqueue(output);
                 CPU4.Run();
                 if (!CPU4.IsFinished)
                 {
                     output = CPU4.Outputs.Pop();
                 }
 
-                CPU5.Inputs.Add(output);
+                CPU5.Inputs.Enqueue(output);
                 CPU5.Run();
                 if (!CPU5.IsFinished)
                 { 

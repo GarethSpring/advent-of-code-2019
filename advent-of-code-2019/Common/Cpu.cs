@@ -8,11 +8,10 @@ namespace advent_of_code_2019.Common
     public class Cpu
     {
         private long opPointer = 0;
-        private int inputPointer = 0;
         private Dictionary<long, long> intCode;
         private long relativeBase = 0;
 
-        public List<long> Inputs { get; set; }
+        public Queue<long> Inputs { get; set; }
 
         public Stack<long> Outputs { get; set; }
 
@@ -22,7 +21,7 @@ namespace advent_of_code_2019.Common
 
         private long opCode;
 
-        public Cpu(string program, List<long> inputs)
+        public Cpu(string program, Queue<long> inputs)
         {
             GetInput(program);
 
@@ -81,7 +80,9 @@ namespace advent_of_code_2019.Common
                         Multiply(opPointer + 1, opPointer + 2, opPointer + 3, mode1, mode2, mode3);
                         break;
                     case 3:
-                        Input(opPointer + 1, mode1, Inputs[inputPointer >= Inputs.Count ? Inputs.Count - 1 : inputPointer]);
+                        long input = 0;
+                        Inputs.TryDequeue(out input);
+                        Input(opPointer + 1, mode1, input);
                         break;
                     case 4:
                         output = Output(opPointer + 1, mode1);
@@ -133,10 +134,7 @@ namespace advent_of_code_2019.Common
                 intCode[intCode[p3]] = v1 + v2;
             }
 
-            
             opPointer += 4;
-
-            //Debug.WriteLine($"ADD {v1} , {v2} INTO {intCode[p3]} : {i1}, {i2}, {i3}");
         }
 
         private void Multiply(long p1, long p2, long p3, int i1, int i2, int i3)
@@ -154,8 +152,6 @@ namespace advent_of_code_2019.Common
             }
 
             opPointer += 4;
-
-            //Debug.WriteLine($"MULT {intCode[p1]} , {intCode[p2]} INTO {intCode[p3]}  : {i1}, {i2}, {i3}");
         }
 
         private void Input(long p1, int i1, long input)
@@ -169,20 +165,16 @@ namespace advent_of_code_2019.Common
                 intCode[intCode[p1]] = input;
             }
 
-            inputPointer++;
             opPointer += 2;
-
-            //Debug.WriteLine($"WRITE {input} to {intCode[p1]}");
         }
 
         private long Output(long p1, int i1)
         {
             var v1 = i1 == 0 ? ReadMemory(intCode[p1]) : i1 == 1 ? ReadMemory(p1) : ReadMemory(intCode[p1] + relativeBase);
             Outputs.Push(v1);
-            //Debug.WriteLine($"OUTPUT {v1}");
             IsHalted = true;
-
             opPointer += 2;
+
             return v1;
         }
 
